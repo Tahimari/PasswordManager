@@ -8,7 +8,7 @@
 PasswordWidget::PasswordWidget(QWidget *parent)
     : QTabWidget(parent)
 {
-//    table = new TableModel(this);
+    table = new TableModel(this);
 //    newAddressTab = new NewAddressTab(this);
 //    connect(newAddressTab, &NewAddressTab::sendDetails,
 //        this, &AddressWidget::addEntry);

@@ -2,7 +2,7 @@
 #define PASSWORDWIDGET_H
 
 //#include "newaddresstab.h"
-//#include "tablemodel.h"
+#include "tablemodel.h"
 
 #include <QItemSelection>
 #include <QTabWidget>
@@ -35,7 +35,7 @@ signals:
 private:
     //void setupTabs();
 
-//    TableModel *table;
+    TableModel *table;
 //    NewAddressTab *newAddressTab;
 //    QSortFilterProxyModel *proxyModel;
 };

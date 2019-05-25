@@ -30,14 +30,16 @@ SOURCES += \
     adddialog.cpp \
     passwordwidget.cpp \
     aboutdialog.cpp \
-    tablemodel.cpp
+    tablemodel.cpp \
+    newpasswordtab.cpp
 
 HEADERS += \
         mypasswordmanager.h \
     adddialog.h \
     passwordwidget.h \
     aboutdialog.h \
-    tablemodel.h
+    tablemodel.h \
+    newpasswordtab.h
 
 FORMS += \
         mypasswordmanager.ui
