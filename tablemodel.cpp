@@ -37,7 +37,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         if (index.column() == 0)
             return contact.name;
         else if (index.column() == 1)
-            return contact.address;
+            return contact.login;
     }
     return QVariant();
 }
@@ -96,7 +96,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
         if (index.column() == 0)
             contact.name = value.toString();
         else if (index.column() == 1)
-            contact.address = value.toString();
+            contact.login = value.toString();
         else
             return false;
 

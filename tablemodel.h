@@ -7,22 +7,23 @@
 struct Row
 {
     QString name;
-    QString address;
+    QString login;
+    QString password;
 
     bool operator==(const Row &other) const
     {
-        return name == other.name && address == other.address;
+        return name == other.name && login == other.login && password == other.password;
     }
 };
 
 inline QDataStream &operator<<(QDataStream &stream, const Row &contact)
 {
-    return stream << contact.name << contact.address;
+    return stream << contact.name << contact.login << contact.password;
 }
 
 inline QDataStream &operator>>(QDataStream &stream, Row &contact)
 {
-    return stream >> contact.name >> contact.address;
+    return stream >> contact.name >> contact.login >> contact.password;
 }
 
 class TableModel : public QAbstractTableModel
