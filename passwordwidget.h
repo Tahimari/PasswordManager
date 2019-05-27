@@ -1,16 +1,16 @@
 #ifndef PASSWORDWIDGET_H
 #define PASSWORDWIDGET_H
 
-//#include "newaddresstab.h"
+#include "newpasswordtab.h"
 #include "tablemodel.h"
 
 #include <QItemSelection>
 #include <QTabWidget>
 
-//QT_BEGIN_NAMESPACE
-//class QSortFilterProxyModel;
-//class QItemSelectionModel;
-//QT_END_NAMESPACE
+QT_BEGIN_NAMESPACE
+class QSortFilterProxyModel;
+class QItemSelectionModel;
+QT_END_NAMESPACE
 
 //! [0]
 class PasswordWidget : public QTabWidget
@@ -19,25 +19,25 @@ class PasswordWidget : public QTabWidget
 
 public:
     PasswordWidget(QWidget *parent = nullptr);
-//    void readFromFile(const QString &fileName);
-//    void writeToFile(const QString &fileName);
+    void readFromFile(const QString &fileName);
+    void writeToFile(const QString &fileName);
 
 public slots:
     void showAddEntryDialog();
     void showInfoDialog();
-  //  void addEntry(QString name, QString address);
-   // void editEntry();
-    //void removeEntry();
+    void addEntry(QString name, QString login, QString password);
+    void editEntry();
+    void removeEntry();
 
 signals:
-    //void selectionChanged (const QItemSelection &selected);
+    void selectionChanged (const QItemSelection &selected);
 
 private:
-    //void setupTabs();
+    void setupTabs();
 
     TableModel *table;
-//    NewAddressTab *newAddressTab;
-//    QSortFilterProxyModel *proxyModel;
+    NewPasswordTab *newPasswordTab;
+    QSortFilterProxyModel *proxyModel;
 };
 
 #endif // PASSWORDWIDGET_H

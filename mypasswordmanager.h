@@ -5,26 +5,30 @@
 
 #include "passwordwidget.h"
 
-namespace Ui {
-class MyPasswordManager;
-}
-
 class MyPasswordManager : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MyPasswordManager(QWidget *parent = nullptr);
-    ~MyPasswordManager();
+    MyPasswordManager();
 
 private slots:
-    void on_pushButton_4_clicked();
-
-    void on_pushButton_2_clicked();
+    void updateActions(const QItemSelection &selection);
+    void openFile();
+    void saveFile();
 
 private:
-    Ui::MyPasswordManager *ui;
+    void createMenus();
+
     PasswordWidget *passwordWidget;
+    QMenu *fileMenu;
+    QMenu *toolMenu;
+    QAction *openAct;
+    QAction *saveAct;
+    QAction *exitAct;
+    QAction *addAct;
+    QAction *editAct;
+    QAction *removeAct;
 };
 
 #endif // MYPASSWORDMANAGER_H

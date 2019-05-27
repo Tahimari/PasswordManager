@@ -15,7 +15,7 @@ class NewPasswordTab : public QWidget
     Q_OBJECT
 
 public:
-    NewPasswordTab(QWidget *parent = 0);
+    NewPasswordTab(QWidget *parent = nullptr);
 
 public slots:
     void addEntry();

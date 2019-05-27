@@ -41,8 +41,7 @@ HEADERS += \
     tablemodel.h \
     newpasswordtab.h
 
-FORMS += \
-        mypasswordmanager.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

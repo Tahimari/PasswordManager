@@ -4,24 +4,24 @@
 #include <QAbstractTableModel>
 #include <QList>
 
-struct Row
+struct Pass
 {
     QString name;
     QString login;
     QString password;
 
-    bool operator==(const Row &other) const
+    bool operator==(const Pass &other) const
     {
         return name == other.name && login == other.login && password == other.password;
     }
 };
 
-inline QDataStream &operator<<(QDataStream &stream, const Row &contact)
+inline QDataStream &operator<<(QDataStream &stream, const Pass &contact)
 {
     return stream << contact.name << contact.login << contact.password;
 }
 
-inline QDataStream &operator>>(QDataStream &stream, Row &contact)
+inline QDataStream &operator>>(QDataStream &stream, Pass &contact)
 {
     return stream >> contact.name >> contact.login >> contact.password;
 }
@@ -32,7 +32,7 @@ class TableModel : public QAbstractTableModel
 
 public:
     TableModel(QObject *parent = nullptr);
-    TableModel(QList<Row> contacts, QObject *parent = nullptr);
+    TableModel(QList<Pass> passes, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
@@ -42,10 +42,10 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
-    QList<Row> getContacts() const;
+    QList<Pass> getPasses() const;
 
 private:
-    QList<Row> contacts;
+    QList<Pass> passes;
 };
 
 #endif // TABLEMODEL_H

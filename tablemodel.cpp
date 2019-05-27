@@ -5,16 +5,16 @@ TableModel::TableModel(QObject *parent)
 {
 }
 
-TableModel::TableModel(QList<Row> contacts, QObject *parent)
+TableModel::TableModel(QList<Pass> contacts, QObject *parent)
     : QAbstractTableModel(parent)
-    , contacts(contacts)
+    , passes(contacts)
 {
 }
 
 int TableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return contacts.size();
+    return passes.size();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
@@ -28,11 +28,11 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() >= contacts.size() || index.row() < 0)
+    if (index.row() >= passes.size() || index.row() < 0)
         return QVariant();
 
     if (role == Qt::DisplayRole) {
-        const auto &contact = contacts.at(index.row());
+        const auto &contact = passes.at(index.row());
 
         if (index.column() == 0)
             return contact.name;
@@ -68,7 +68,7 @@ bool TableModel::insertRows(int position, int rows, const QModelIndex &index)
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
-        contacts.insert(position, { QString(), QString() });
+        passes.insert(position, { QString(), QString(), QString() });
 
     endInsertRows();
     return true;
@@ -80,7 +80,7 @@ bool TableModel::removeRows(int position, int rows, const QModelIndex &index)
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
-        contacts.removeAt(position);
+        passes.removeAt(position);
 
     endRemoveRows();
     return true;
@@ -91,7 +91,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
     if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
 
-        auto contact = contacts.value(row);
+        auto contact = passes.value(row);
 
         if (index.column() == 0)
             contact.name = value.toString();
@@ -100,7 +100,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
         else
             return false;
 
-        contacts.replace(row, contact);
+        passes.replace(row, contact);
         emit dataChanged(index, index, {role});
 
         return true;
@@ -117,7 +117,7 @@ Qt::ItemFlags TableModel::flags(const QModelIndex &index) const
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-QList<Row> TableModel::getContacts() const
+QList<Pass> TableModel::getPasses() const
 {
-    return contacts;
+    return passes;
 }
