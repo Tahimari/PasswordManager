@@ -4,7 +4,6 @@
 
 #include <QtWidgets>
 
-//! [0]
 PasswordWidget::PasswordWidget(QWidget *parent)
     : QTabWidget(parent)
 {
@@ -13,7 +12,7 @@ PasswordWidget::PasswordWidget(QWidget *parent)
     connect(newPasswordTab, &NewPasswordTab::sendDetails,
         this, &PasswordWidget::addEntry);
 
-    addTab(newPasswordTab, "Address Book");
+    addTab(newPasswordTab, "Password manager");
 
     setupTabs();
 }
@@ -52,9 +51,7 @@ void PasswordWidget::addEntry(QString name, QString login, QString password)
             tr("The name \"%1\" already exists.").arg(name));
     }
 }
-//! [3]
 
-//! [4a]
 void PasswordWidget::editEntry()
 {
     QTableView *temp = static_cast<QTableView*>(currentWidget());
@@ -76,9 +73,7 @@ void PasswordWidget::editEntry()
         QVariant varAddr = table->data(addressIndex, Qt::DisplayRole);
         address = varAddr.toString();
     }
-//! [4a]
 
-//! [4b]
     AddDialog aDialog;
     aDialog.setWindowTitle(tr("Edit a Contact"));
 
@@ -95,9 +90,7 @@ void PasswordWidget::editEntry()
         }
     }
 }
-//! [4b]
 
-//! [5]
 void PasswordWidget::removeEntry()
 {
     QTableView *temp = static_cast<QTableView*>(currentWidget());
@@ -115,9 +108,7 @@ void PasswordWidget::removeEntry()
         insertTab(0, newPasswordTab, "Address Book");
     }
 }
-//! [5]
 
-//! [1]
 void PasswordWidget::setupTabs()
 {
     QStringList groups;
@@ -156,15 +147,13 @@ void PasswordWidget::setupTabs()
         addTab(tableView, str);
     }
 }
-//! [1]
 
-//! [7]
 void PasswordWidget::readFromFile(const QString &fileName)
 {
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, tr("Unable to open file"),
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"),
             file.errorString());
         return;
     }
@@ -174,27 +163,23 @@ void PasswordWidget::readFromFile(const QString &fileName)
     in >> contacts;
 
     if (contacts.isEmpty()) {
-        QMessageBox::information(this, tr("No contacts in file"),
-                                 tr("The file you are attempting to open contains no contacts."));
+        QMessageBox::information(this, tr("Brak danych w pliku"),
+                                 tr("Plik który próbujes otworzyć nie zawiera zapisanych haseł."));
     } else {
         for (const auto &contact: qAsConst(contacts))
             addEntry(contact.name, contact.login, contact.password);
     }
 }
-//! [7]
 
-//! [6]
 void PasswordWidget::writeToFile(const QString &fileName)
 {
     QFile file(fileName);
 
     if (!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"), file.errorString());
         return;
     }
 
     QDataStream out(&file);
     out << table->getPasses();
 }
-//! [6]
-

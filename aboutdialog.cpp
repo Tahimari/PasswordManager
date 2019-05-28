@@ -2,7 +2,6 @@
 
 #include <QtWidgets>
 
-//! [0]
 AboutDialog::AboutDialog(QWidget *parent)
     : QDialog(parent)
 {

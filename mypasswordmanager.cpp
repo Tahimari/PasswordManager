@@ -9,41 +9,41 @@ MyPasswordManager::MyPasswordManager()
     passwordWidget = new PasswordWidget;
     setCentralWidget(passwordWidget);
     createMenus();
-    setWindowTitle(tr("Address Book"));
+    setWindowTitle(tr("MyPasswordManager"));
 }
 
 void MyPasswordManager::createMenus()
 {
-    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu = menuBar()->addMenu(tr("&Plik"));
 
-    openAct = new QAction(tr("&Open..."), this);
+    openAct = new QAction(tr("&Otwórz..."), this);
     fileMenu->addAction(openAct);
     connect(openAct, &QAction::triggered, this, &MyPasswordManager::openFile);
 
-    saveAct = new QAction(tr("&Save As..."), this);
+    saveAct = new QAction(tr("&Zapisz jako..."), this);
     fileMenu->addAction(saveAct);
     connect(saveAct, &QAction::triggered, this, &MyPasswordManager::saveFile);
 
     fileMenu->addSeparator();
 
-    exitAct = new QAction(tr("E&xit"), this);
+    exitAct = new QAction(tr("&Zakończ"), this);
     fileMenu->addAction(exitAct);
     connect(exitAct, &QAction::triggered, this, &QWidget::close);
 
-    toolMenu = menuBar()->addMenu(tr("&Tools"));
+    toolMenu = menuBar()->addMenu(tr("&Narzędzia"));
 
-    addAct = new QAction(tr("&Add Entry..."), this);
+    addAct = new QAction(tr("&Dodaj wpis..."), this);
     toolMenu->addAction(addAct);
     connect(addAct, &QAction::triggered, passwordWidget, &PasswordWidget::showAddEntryDialog);
 
-    editAct = new QAction(tr("&Edit Entry..."), this);
+    editAct = new QAction(tr("&Edytuj wpis..."), this);
     editAct->setEnabled(false);
     toolMenu->addAction(editAct);
     connect(editAct, &QAction::triggered, passwordWidget, &PasswordWidget::editEntry);
 
     toolMenu->addSeparator();
 
-    removeAct = new QAction(tr("&Remove Entry"), this);
+    removeAct = new QAction(tr("&Usuń wpis"), this);
     removeAct->setEnabled(false);
     toolMenu->addAction(removeAct);
     connect(removeAct, &QAction::triggered, passwordWidget, &PasswordWidget::removeEntry);

@@ -8,10 +8,10 @@ NewPasswordTab::NewPasswordTab(QWidget *parent)
 {
     Q_UNUSED(parent);
 
-    descriptionLabel = new QLabel(tr("There are currently no contacts in your address book. "
-                                      "\nClick Add to add new contacts."));
+    descriptionLabel = new QLabel(tr("Obecnie nie posiadasz zapisanych haseł. "
+                                      "\nKliknij aby dodać nowy wpis."));
 
-    addButton = new QPushButton(tr("Add"));
+    addButton = new QPushButton(tr("Dodaj"));
 
     connect(addButton, &QAbstractButton::clicked, this, &NewPasswordTab::addEntry);
 

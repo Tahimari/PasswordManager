@@ -5,9 +5,9 @@ TableModel::TableModel(QObject *parent)
 {
 }
 
-TableModel::TableModel(QList<Pass> contacts, QObject *parent)
+TableModel::TableModel(QList<Pass> passes, QObject *parent)
     : QAbstractTableModel(parent)
-    , passes(contacts)
+    , passes(passes)
 {
 }
 
@@ -32,12 +32,14 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     if (role == Qt::DisplayRole) {
-        const auto &contact = passes.at(index.row());
+        const auto &pass = passes.at(index.row());
 
         if (index.column() == 0)
-            return contact.name;
+            return pass.name;
         else if (index.column() == 1)
-            return contact.login;
+            return pass.login;
+        else if (index.column() == 2)
+            return pass.password;
     }
     return QVariant();
 }
@@ -50,10 +52,13 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
     if (orientation == Qt::Horizontal) {
         switch (section) {
             case 0:
-                return tr("Name");
+                return tr("Nazwa");
 
             case 1:
-                return tr("Address");
+                return tr("Login");
+
+            case 2:
+                return tr("Hasło");
 
             default:
                 return QVariant();
@@ -91,16 +96,18 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
     if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
 
-        auto contact = passes.value(row);
+        auto pass = passes.value(row);
 
         if (index.column() == 0)
-            contact.name = value.toString();
+            pass.name = value.toString();
         else if (index.column() == 1)
-            contact.login = value.toString();
+            pass.login = value.toString();
+        else if (index.column() == 2)
+            pass.password = value.toString();
         else
             return false;
 
-        passes.replace(row, contact);
+        passes.replace(row, pass);
         emit dataChanged(index, index, {role});
 
         return true;
