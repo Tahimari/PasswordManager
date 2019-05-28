@@ -10,11 +10,11 @@ PasswordWidget::PasswordWidget(QWidget *parent)
     table = new TableModel(this);
     newPasswordTab = new NewPasswordTab(this);
     connect(newPasswordTab, &NewPasswordTab::sendDetails,
-        this, &PasswordWidget::addEntry);
+            this, &PasswordWidget::addEntry);
 
     addTab(newPasswordTab, "Password manager");
 
-    setupTabs();
+    setupTab();
 }
 
 void PasswordWidget::showAddEntryDialog()
@@ -44,11 +44,13 @@ void PasswordWidget::addEntry(QString name, QString login, QString password)
         QModelIndex index = table->index(0, 0, QModelIndex());
         table->setData(index, name, Qt::EditRole);
         index = table->index(0, 1, QModelIndex());
+        table->setData(index, login, Qt::EditRole);
+        index = table->index(0, 2, QModelIndex());
         table->setData(index, password, Qt::EditRole);
         removeTab(indexOf(newPasswordTab));
     } else {
-        QMessageBox::information(this, tr("Duplicate Name"),
-            tr("The name \"%1\" already exists.").arg(name));
+        QMessageBox::information(this, tr("Zła nazwa"),
+                                 tr("Nazwa \"%1\" już istnieje.").arg(name));
     }
 }
 
@@ -60,7 +62,8 @@ void PasswordWidget::editEntry()
 
     QModelIndexList indexes = selectionModel->selectedRows();
     QString name;
-    QString address;
+    QString login;
+    QString password;
     int row = -1;
 
     foreach (QModelIndex index, indexes) {
@@ -69,24 +72,28 @@ void PasswordWidget::editEntry()
         QVariant varName = table->data(nameIndex, Qt::DisplayRole);
         name = varName.toString();
 
-        QModelIndex addressIndex = table->index(row, 1, QModelIndex());
-        QVariant varAddr = table->data(addressIndex, Qt::DisplayRole);
-        address = varAddr.toString();
+        QModelIndex loginIndex = table->index(row, 1, QModelIndex());
+        QVariant varLogin = table->data(loginIndex, Qt::DisplayRole);
+        login = varLogin.toString();
+
+        QModelIndex passwordIndex = table->index(row, 2, QModelIndex());
+        QVariant varPassword = table->data(passwordIndex, Qt::DisplayRole);
+        password = varPassword.toString();
     }
 
     AddDialog aDialog;
-    aDialog.setWindowTitle(tr("Edit a Contact"));
+    aDialog.setWindowTitle(tr("Edytuj wpis"));
 
     aDialog.nameText->setReadOnly(true);
     aDialog.nameText->setText(name);
-    aDialog.loginText->setText("test");
-    aDialog.passwordText->setText(address);
+    aDialog.loginText->setText(login);
+    aDialog.passwordText->setText(password);
 
     if (aDialog.exec()) {
-        QString newAddress = aDialog.loginText->text();
-        if (newAddress != address) {
+        QString newLogin = aDialog.loginText->text();
+        if (newLogin != login) {
             QModelIndex index = table->index(row, 1, QModelIndex());
-            table->setData(index, newAddress, Qt::EditRole);
+            table->setData(index, newLogin, Qt::EditRole);
         }
     }
 }
@@ -105,47 +112,51 @@ void PasswordWidget::removeEntry()
     }
 
     if (table->rowCount(QModelIndex()) == 0) {
-        insertTab(0, newPasswordTab, "Address Book");
+        insertTab(0, newPasswordTab, "Password manager");
     }
 }
 
-void PasswordWidget::setupTabs()
+void PasswordWidget::removeAllEntry()
 {
-    QStringList groups;
-    groups << "ABC" << "DEF" << "GHI" << "JKL" << "MNO" << "PQR" << "STU" << "VW" << "XYZ";
+    if (table->rowCount(QModelIndex()) > 0) {
+        table = new TableModel(this);
+    }else {
+        insertTab(0, newPasswordTab, "Password manager");
+    }
+}
 
-    for (int i = 0; i < groups.size(); ++i) {
-        QString str = groups.at(i);
-        QString regExp = QString("^[%1].*").arg(str);
+void PasswordWidget::setupTab()
+{
+    QString str = "Twoje hasła";
+    QString regExp = QString("^[%1].*").arg(str);
 
-        proxyModel = new QSortFilterProxyModel(this);
-        proxyModel->setSourceModel(table);
-        proxyModel->setFilterRegExp(QRegExp(regExp, Qt::CaseInsensitive));
-        proxyModel->setFilterKeyColumn(0);
+    proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(table);
+    //proxyModel->setFilterRegExp(QRegExp(regExp, Qt::CaseInsensitive));
+    proxyModel->setFilterKeyColumn(0);
 
-        QTableView *tableView = new QTableView;
-        tableView->setModel(proxyModel);
+    QTableView *tableView = new QTableView;
+    tableView->setModel(proxyModel);
 
-        tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableView->horizontalHeader()->setStretchLastSection(true);
-        tableView->verticalHeader()->hide();
-        tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableView->horizontalHeader()->setStretchLastSection(true);
+    tableView->verticalHeader()->hide();
+    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
-        tableView->setSortingEnabled(true);
+    tableView->setSortingEnabled(true);
 
-        connect(tableView->selectionModel(),
+    connect(tableView->selectionModel(),
             &QItemSelectionModel::selectionChanged,
             this, &PasswordWidget::selectionChanged);
 
-        connect(this, &QTabWidget::currentChanged, this, [this](int tabIndex) {
-            auto *tableView = qobject_cast<QTableView *>(widget(tabIndex));
-            if (tableView)
-                emit selectionChanged(tableView->selectionModel()->selection());
-        });
+    connect(this, &QTabWidget::currentChanged, this, [this](int tabIndex) {
+        auto *tableView = qobject_cast<QTableView *>(widget(tabIndex));
+        if (tableView)
+            emit selectionChanged(tableView->selectionModel()->selection());
+    });
 
-        addTab(tableView, str);
-    }
+    addTab(tableView, str);
 }
 
 void PasswordWidget::readFromFile(const QString &fileName)
@@ -154,20 +165,20 @@ void PasswordWidget::readFromFile(const QString &fileName)
 
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(this, tr("Nie można otworzyć pliku"),
-            file.errorString());
+                                 file.errorString());
         return;
     }
 
-    QList<Pass> contacts;
+    QList<Pass> passes;
     QDataStream in(&file);
-    in >> contacts;
+    in >> passes;
 
-    if (contacts.isEmpty()) {
+    if (passes.isEmpty()) {
         QMessageBox::information(this, tr("Brak danych w pliku"),
                                  tr("Plik który próbujes otworzyć nie zawiera zapisanych haseł."));
     } else {
-        for (const auto &contact: qAsConst(contacts))
-            addEntry(contact.name, contact.login, contact.password);
+        for (const auto &pass: qAsConst(passes))
+            addEntry(pass.name, pass.login, pass.password);
     }
 }
 

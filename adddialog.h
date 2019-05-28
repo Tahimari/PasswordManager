@@ -20,6 +20,7 @@ public:
     QLineEdit *nameText;
     QLineEdit *loginText;
     QLineEdit *passwordText;
+    void generatePassword(int length);
 
 private:
     QLabel *nameLabel;
@@ -27,6 +28,7 @@ private:
     QLabel *passwordLabel;
     QPushButton *okButton;
     QPushButton *cancelButton;
+    QPushButton *generateButton;
 };
 
 #endif // ADDDIALOG_H

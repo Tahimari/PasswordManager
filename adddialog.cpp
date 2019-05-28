@@ -11,6 +11,7 @@ AddDialog::AddDialog(QWidget *parent)
     passwordLabel = new QLabel("Hasło");
     okButton = new QPushButton("OK");
     cancelButton = new QPushButton("Anuluj");
+    generateButton = new QPushButton("Generuj hasło");
 
     nameText = new QLineEdit;
     loginText = new QLineEdit;
@@ -32,8 +33,11 @@ AddDialog::AddDialog(QWidget *parent)
     gLayout->addWidget(passwordText, 3, 1);
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
-    buttonLayout->addWidget(okButton);
+
+    buttonLayout->addWidget(generateButton);
     buttonLayout->addWidget(cancelButton);
+    buttonLayout->addWidget(okButton);
+    okButton->setDefault(true);
 
     gLayout->addLayout(buttonLayout, 4, 1, Qt::AlignRight);
 
@@ -41,8 +45,25 @@ AddDialog::AddDialog(QWidget *parent)
     mainLayout->addLayout(gLayout);
     setLayout(mainLayout);
 
+    connect(generateButton, &QAbstractButton::clicked, this, &AddDialog::generatePassword);
     connect(okButton, &QAbstractButton::clicked, this, &QDialog::accept);
     connect(cancelButton, &QAbstractButton::clicked, this, &QDialog::reject);
 
     setWindowTitle(tr("Dodaj wpis"));
+}
+
+void AddDialog::generatePassword(int length)
+{
+    length = 16;
+    QString str;
+    str.resize(length);
+    for (int s = 0; s < length ; ++s)
+        if(qrand() % 3 == 0)
+            str[s] = QChar('A' + char(qrand() % ('Z' - 'A')));
+        else if(qrand() % 3 == 1)
+            str[s] = QString::number(qrand() % 10).at(0);
+        else
+            str[s] = QChar('a' + char(qrand() % ('z' - 'a')));
+
+    passwordText->setText(str);
 }

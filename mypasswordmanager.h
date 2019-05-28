@@ -14,21 +14,27 @@ public:
 
 private slots:
     void updateActions(const QItemSelection &selection);
+    void connectMenus(PasswordWidget *passwordWidget);
     void openFile();
     void saveFile();
 
 private:
     void createMenus();
+    void removeAll();
 
     PasswordWidget *passwordWidget;
+    QToolBar *toolBar;
     QMenu *fileMenu;
     QMenu *toolMenu;
+    QMenu *otherMenu;
     QAction *openAct;
     QAction *saveAct;
     QAction *exitAct;
     QAction *addAct;
     QAction *editAct;
     QAction *removeAct;
+    QAction *removeAllAct;
+    QAction *aboutAct;
 };
 
 #endif // MYPASSWORDMANAGER_H

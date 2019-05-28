@@ -3,6 +3,8 @@
 #include <QAction>
 #include <QFileDialog>
 #include <QMenuBar>
+#include <QToolBar>
+#include <QMessageBox>
 
 MyPasswordManager::MyPasswordManager()
 {
@@ -31,14 +33,18 @@ void MyPasswordManager::createMenus()
     connect(exitAct, &QAction::triggered, this, &QWidget::close);
 
     toolMenu = menuBar()->addMenu(tr("&Narzędzia"));
+    toolBar = this->addToolBar(tr("&Narzędzie"));
 
     addAct = new QAction(tr("&Dodaj wpis..."), this);
     toolMenu->addAction(addAct);
+    toolBar->addAction(addAct);
     connect(addAct, &QAction::triggered, passwordWidget, &PasswordWidget::showAddEntryDialog);
+
 
     editAct = new QAction(tr("&Edytuj wpis..."), this);
     editAct->setEnabled(false);
     toolMenu->addAction(editAct);
+    toolBar->addAction(editAct);
     connect(editAct, &QAction::triggered, passwordWidget, &PasswordWidget::editEntry);
 
     toolMenu->addSeparator();
@@ -46,10 +52,45 @@ void MyPasswordManager::createMenus()
     removeAct = new QAction(tr("&Usuń wpis"), this);
     removeAct->setEnabled(false);
     toolMenu->addAction(removeAct);
+    toolBar->addAction(removeAct);
     connect(removeAct, &QAction::triggered, passwordWidget, &PasswordWidget::removeEntry);
+
+    removeAllAct = new QAction(tr("&Usuń wszystko"), this);
+    toolBar->addAction(removeAllAct);
+    connect(removeAllAct, &QAction::triggered, this, &MyPasswordManager::removeAll);
+
+    otherMenu = menuBar()->addMenu(tr("&Inne"));
+
+    aboutAct = new QAction(tr("&O programie"), this);
+    otherMenu->addAction(aboutAct);
+    connect(aboutAct, &QAction::triggered, passwordWidget, &PasswordWidget::showInfoDialog);
 
     connect(passwordWidget, &PasswordWidget::selectionChanged,
         this, &MyPasswordManager::updateActions);
+}
+
+void MyPasswordManager::connectMenus(PasswordWidget *passwordWidget)
+{
+    connect(addAct, &QAction::triggered, passwordWidget, &PasswordWidget::showAddEntryDialog);
+    connect(editAct, &QAction::triggered, passwordWidget, &PasswordWidget::editEntry);
+    connect(aboutAct, &QAction::triggered, passwordWidget, &PasswordWidget::showInfoDialog);
+    connect(passwordWidget, &PasswordWidget::selectionChanged,
+        this, &MyPasswordManager::updateActions);
+}
+
+void MyPasswordManager::removeAll()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Potwierdź", "Czy jesteś pewny że chcesz usunąć wszystkie wpisy?",
+                                    QMessageBox::Yes|QMessageBox::No);
+      if (reply == QMessageBox::Yes) {
+          passwordWidget = new PasswordWidget;
+          setCentralWidget(passwordWidget);
+          removeAct->setEnabled(false);
+          editAct->setEnabled(false);
+          connectMenus(passwordWidget);
+      } else {
+      }
 }
 
 void MyPasswordManager::openFile()

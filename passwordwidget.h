@@ -28,12 +28,14 @@ public slots:
     void addEntry(QString name, QString login, QString password);
     void editEntry();
     void removeEntry();
+    void removeAllEntry();
+
 
 signals:
     void selectionChanged (const QItemSelection &selected);
 
 private:
-    void setupTabs();
+    void setupTab();
 
     TableModel *table;
     NewPasswordTab *newPasswordTab;
