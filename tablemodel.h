@@ -9,6 +9,7 @@ struct Pass
     QString name;
     QString login;
     QString password;
+    QString hidePassword;
 
     bool operator==(const Pass &other) const
     {
@@ -42,6 +43,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    bool hidePassword(const QModelIndex &index, int role);
     QList<Pass> getPasses() const;
 
 private:

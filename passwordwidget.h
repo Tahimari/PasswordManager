@@ -28,6 +28,7 @@ public slots:
     void addEntry(QString name, QString login, QString password);
     void editEntry();
     void removeEntry();
+    void hideEntry();
     void removeAllEntry();
 
 

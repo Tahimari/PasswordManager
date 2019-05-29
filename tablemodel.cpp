@@ -73,7 +73,7 @@ bool TableModel::insertRows(int position, int rows, const QModelIndex &index)
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
-        passes.insert(position, { QString(), QString(), QString() });
+        passes.insert(position, { QString(), QString(), QString(), QString() });
 
     endInsertRows();
     return true;
@@ -91,6 +91,31 @@ bool TableModel::removeRows(int position, int rows, const QModelIndex &index)
     return true;
 }
 
+bool TableModel::hidePassword(const QModelIndex &index, int role)
+{
+    if (index.isValid() && role == Qt::EditRole) {
+        int row = index.row();
+        auto pass = passes.value(row);
+        QString temp = pass.password;
+
+        if (index.column() == 2) {
+            pass.password = pass.hidePassword;
+            pass.hidePassword = temp;
+        }
+        else
+            return false;
+
+
+
+        passes.replace(row, pass);
+        emit dataChanged(index, index, {role});
+
+        return true;
+    }
+
+    return false;
+}
+
 bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
@@ -102,8 +127,15 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
             pass.name = value.toString();
         else if (index.column() == 1)
             pass.login = value.toString();
-        else if (index.column() == 2)
-            pass.password = value.toString();
+        else if (index.column() == 2) {
+            QString str = value.toString();
+            QString hideStr = "";
+            pass.password = str;
+
+            for (int i=0; i<str.length(); i++)
+                hideStr += '*';
+            pass.hidePassword = hideStr;
+        }
         else
             return false;
 

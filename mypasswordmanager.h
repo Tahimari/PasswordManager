@@ -33,6 +33,7 @@ private:
     QAction *addAct;
     QAction *editAct;
     QAction *removeAct;
+    QAction *hideAct;
     QAction *removeAllAct;
     QAction *aboutAct;
 };

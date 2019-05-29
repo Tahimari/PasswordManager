@@ -116,6 +116,23 @@ void PasswordWidget::removeEntry()
     }
 }
 
+void PasswordWidget::hideEntry()
+{
+    QTableView *temp = static_cast<QTableView*>(currentWidget());
+    QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel*>(temp->model());
+    QItemSelectionModel *selectionModel = temp->selectionModel();
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    int row = -1;
+
+    foreach (QModelIndex index, indexes) {
+        row = proxy->mapToSource(index).row();
+    }
+
+    QModelIndex index = table->index(row, 2, QModelIndex());
+    table->hidePassword(index, Qt::EditRole);
+}
+
 void PasswordWidget::removeAllEntry()
 {
     if (table->rowCount(QModelIndex()) > 0) {

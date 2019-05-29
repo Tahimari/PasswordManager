@@ -55,6 +55,14 @@ void MyPasswordManager::createMenus()
     toolBar->addAction(removeAct);
     connect(removeAct, &QAction::triggered, passwordWidget, &PasswordWidget::removeEntry);
 
+    toolMenu->addSeparator();
+
+    hideAct = new QAction(tr("&Schowaj/pokaż hasło"), this);
+    hideAct->setEnabled(false);
+    toolMenu->addAction(hideAct);
+    toolBar->addAction(hideAct);
+    connect(hideAct, &QAction::triggered, passwordWidget, &PasswordWidget::hideEntry);
+
     removeAllAct = new QAction(tr("&Usuń wszystko"), this);
     toolBar->addAction(removeAllAct);
     connect(removeAllAct, &QAction::triggered, this, &MyPasswordManager::removeAll);
@@ -74,6 +82,8 @@ void MyPasswordManager::connectMenus(PasswordWidget *passwordWidget)
     connect(addAct, &QAction::triggered, passwordWidget, &PasswordWidget::showAddEntryDialog);
     connect(editAct, &QAction::triggered, passwordWidget, &PasswordWidget::editEntry);
     connect(aboutAct, &QAction::triggered, passwordWidget, &PasswordWidget::showInfoDialog);
+    connect(removeAct, &QAction::triggered, passwordWidget, &PasswordWidget::removeEntry);
+    connect(hideAct, &QAction::triggered, passwordWidget, &PasswordWidget::hideEntry);
     connect(passwordWidget, &PasswordWidget::selectionChanged,
         this, &MyPasswordManager::updateActions);
 }
@@ -88,6 +98,7 @@ void MyPasswordManager::removeAll()
           setCentralWidget(passwordWidget);
           removeAct->setEnabled(false);
           editAct->setEnabled(false);
+          hideAct->setEnabled(false);
           connectMenus(passwordWidget);
       } else {
       }
@@ -114,8 +125,10 @@ void MyPasswordManager::updateActions(const QItemSelection &selection)
     if (!indexes.isEmpty()) {
         removeAct->setEnabled(true);
         editAct->setEnabled(true);
+        hideAct->setEnabled(true);
     } else {
         removeAct->setEnabled(false);
         editAct->setEnabled(false);
+        hideAct->setEnabled(false);
     }
 }
