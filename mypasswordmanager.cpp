@@ -78,17 +78,6 @@ void MyPasswordManager::createMenus()
         this, &MyPasswordManager::updateActions);
 }
 
-void MyPasswordManager::connectMenus(PasswordWidget *passwordWidget)
-{
-    connect(addAct, &QAction::triggered, passwordWidget, &PasswordWidget::showAddEntryDialog);
-    connect(editAct, &QAction::triggered, passwordWidget, &PasswordWidget::editEntry);
-    connect(aboutAct, &QAction::triggered, passwordWidget, &PasswordWidget::showInfoDialog);
-    connect(removeAct, &QAction::triggered, passwordWidget, &PasswordWidget::removeEntry);
-    connect(hideAct, &QAction::triggered, passwordWidget, &PasswordWidget::hideEntry);
-    connect(passwordWidget, &PasswordWidget::selectionChanged,
-        this, &MyPasswordManager::updateActions);
-}
-
 void MyPasswordManager::removeAll()
 {
     QMessageBox::StandardButton reply;
@@ -103,6 +92,17 @@ void MyPasswordManager::removeAll()
           connectMenus(passwordWidget);
       } else {
       }
+}
+
+void MyPasswordManager::connectMenus(PasswordWidget *passwordWidget)
+{
+    connect(addAct, &QAction::triggered, passwordWidget, &PasswordWidget::showAddEntryDialog);
+    connect(editAct, &QAction::triggered, passwordWidget, &PasswordWidget::editEntry);
+    connect(aboutAct, &QAction::triggered, passwordWidget, &PasswordWidget::showInfoDialog);
+    connect(removeAct, &QAction::triggered, passwordWidget, &PasswordWidget::removeEntry);
+    connect(hideAct, &QAction::triggered, passwordWidget, &PasswordWidget::hideEntry);
+    connect(passwordWidget, &PasswordWidget::selectionChanged,
+        this, &MyPasswordManager::updateActions);
 }
 
 void MyPasswordManager::openFile()

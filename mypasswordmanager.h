@@ -14,13 +14,13 @@ public:
 
 private slots:
     void updateActions(const QItemSelection &selection);
-    void connectMenus(PasswordWidget *passwordWidget);
     void openFile();
     void saveFile();
 
 private:
     void createMenus();
     void removeAll();
+    void connectMenus(PasswordWidget *passwordWidget);
 
     PasswordWidget *passwordWidget;
     QToolBar *toolBar;

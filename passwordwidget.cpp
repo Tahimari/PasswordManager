@@ -52,7 +52,7 @@ void PasswordWidget::showInfoDialog()
 
 void PasswordWidget::addEntry(QString name, QString login, QString password)
 {
-    if (!table->getPasses().contains({ name, login, password })) {
+    if (!table->getPasses().contains({ name, login, password, "" })) {
         table->insertRows(0, 1, QModelIndex());
 
         QModelIndex index = table->index(0, 0, QModelIndex());
@@ -147,15 +147,6 @@ void PasswordWidget::hideEntry()
     table->hidePassword(index, Qt::EditRole);
 }
 
-void PasswordWidget::removeAllEntry()
-{
-    if (table->rowCount(QModelIndex()) > 0) {
-        table = new TableModel(this);
-    }else {
-        insertTab(0, newPasswordTab, "Password manager");
-    }
-}
-
 void PasswordWidget::setupTab()
 {
     QString str = "Twoje hasła";
@@ -163,7 +154,6 @@ void PasswordWidget::setupTab()
 
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(table);
-    //proxyModel->setFilterRegExp(QRegExp(regExp, Qt::CaseInsensitive));
     proxyModel->setFilterKeyColumn(0);
 
     QTableView *tableView = new QTableView;

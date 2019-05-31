@@ -12,7 +12,6 @@ class QSortFilterProxyModel;
 class QItemSelectionModel;
 QT_END_NAMESPACE
 
-//! [0]
 class PasswordWidget : public QTabWidget
 {
     Q_OBJECT
@@ -30,8 +29,6 @@ public slots:
     void editEntry();
     void removeEntry();
     void hideEntry();
-    void removeAllEntry();
-
 
 signals:
     void selectionChanged (const QItemSelection &selected);

@@ -7,7 +7,6 @@ QT_BEGIN_NAMESPACE
 class QLabel;
 QT_END_NAMESPACE
 
-//! [0]
 class AboutDialog : public QDialog
 {
     Q_OBJECT

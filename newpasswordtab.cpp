@@ -3,7 +3,6 @@
 
 #include <QtWidgets>
 
-//! [0]
 NewPasswordTab::NewPasswordTab(QWidget *parent)
 {
     Q_UNUSED(parent);
@@ -21,9 +20,7 @@ NewPasswordTab::NewPasswordTab(QWidget *parent)
 
     setLayout(mainLayout);
 }
-//! [0]
 
-//! [1]
 void NewPasswordTab::addEntry()
 {
     AddDialog aDialog;

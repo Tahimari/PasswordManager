@@ -9,7 +9,6 @@ class QPushButton;
 class QLineEdit;
 QT_END_NAMESPACE
 
-//! [0]
 class AddDialog : public QDialog
 {
     Q_OBJECT

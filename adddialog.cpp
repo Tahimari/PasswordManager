@@ -2,13 +2,13 @@
 
 #include <QtWidgets>
 
-//! [0]
 AddDialog::AddDialog(QWidget *parent)
     : QDialog(parent)
 {
     nameLabel = new QLabel("Nazwa");
     loginLabel = new QLabel("Login");
     passwordLabel = new QLabel("Hasło");
+
     okButton = new QPushButton("OK");
     cancelButton = new QPushButton("Anuluj");
     generateButton = new QPushButton("Generuj hasło");

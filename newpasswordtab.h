@@ -9,7 +9,6 @@ class QPushButton;
 class QVBoxLayout;
 QT_END_NAMESPACE
 
-//! [0]
 class NewPasswordTab : public QWidget
 {
     Q_OBJECT
