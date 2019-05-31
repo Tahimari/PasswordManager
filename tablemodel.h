@@ -3,6 +3,8 @@
 
 #include <QAbstractTableModel>
 #include <QList>
+#include <QCryptographicHash>
+
 
 struct Pass
 {

@@ -1,4 +1,5 @@
 #include "tablemodel.h"
+#include <QDebug>
 
 TableModel::TableModel(QObject *parent)
     : QAbstractTableModel(parent)

@@ -19,11 +19,12 @@ class PasswordWidget : public QTabWidget
 
 public:
     PasswordWidget(QWidget *parent = nullptr);
-    void readFromFile(const QString &fileName);
-    void writeToFile(const QString &fileName);
+    void readFromFile(const QString &fileName, const QString password);
+    void writeToFile(const QString &fileName, const QString password);
 
 public slots:
     void showAddEntryDialog();
+    QString showPasswordDialog();
     void showInfoDialog();
     void addEntry(QString name, QString login, QString password);
     void editEntry();

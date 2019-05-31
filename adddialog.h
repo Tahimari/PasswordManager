@@ -6,7 +6,6 @@
 QT_BEGIN_NAMESPACE
 class QLabel;
 class QPushButton;
-class QTextEdit;
 class QLineEdit;
 QT_END_NAMESPACE
 

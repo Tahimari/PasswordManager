@@ -1,8 +1,10 @@
 #include "adddialog.h"
+#include "passworddialog.h"
 #include "aboutdialog.h"
 #include "passwordwidget.h"
 
 #include <QtWidgets>
+#include <QCryptographicHash>
 
 PasswordWidget::PasswordWidget(QWidget *parent)
     : QTabWidget(parent)
@@ -28,6 +30,18 @@ void PasswordWidget::showAddEntryDialog()
 
         addEntry(name, login, password);
     }
+}
+
+QString PasswordWidget::showPasswordDialog()
+{
+    PasswordDialog pDialog;
+
+    if (pDialog.exec()) {
+        QString password = pDialog.passwordText->text();
+
+        return password;
+    }
+    return "";
 }
 
 void PasswordWidget::showInfoDialog()
@@ -176,7 +190,7 @@ void PasswordWidget::setupTab()
     addTab(tableView, str);
 }
 
-void PasswordWidget::readFromFile(const QString &fileName)
+void PasswordWidget::readFromFile(const QString &fileName, const QString password)
 {
     QFile file(fileName);
 
@@ -188,9 +202,23 @@ void PasswordWidget::readFromFile(const QString &fileName)
 
     QList<Pass> passes;
     QDataStream in(&file);
+
+    QByteArray bytePassword = password.toUtf8();
+    QString hashedPassword = QString(QCryptographicHash::hash(bytePassword, (QCryptographicHash::Md5)));
+
+    QString filePassword;
+    in >> filePassword;
     in >> passes;
 
-    if (passes.isEmpty()) {
+    bool isPasswordValid = false;
+    if (hashedPassword == filePassword){
+        isPasswordValid = true;
+    }
+
+    if (!isPasswordValid) {
+        QMessageBox::information(this, tr("Nie poprawne hasło"),
+                                 tr("Podane hasło jest niepoprawne."));
+    } else if (passes.isEmpty()) {
         QMessageBox::information(this, tr("Brak danych w pliku"),
                                  tr("Plik który próbujes otworzyć nie zawiera zapisanych haseł."));
     } else {
@@ -199,7 +227,7 @@ void PasswordWidget::readFromFile(const QString &fileName)
     }
 }
 
-void PasswordWidget::writeToFile(const QString &fileName)
+void PasswordWidget::writeToFile(const QString &fileName, const QString password)
 {
     QFile file(fileName);
 
@@ -209,5 +237,7 @@ void PasswordWidget::writeToFile(const QString &fileName)
     }
 
     QDataStream out(&file);
+    QByteArray bytePassword = password.toUtf8();
+    out << QString(QCryptographicHash::hash(bytePassword, (QCryptographicHash::Md5)));
     out << table->getPasses();
 }

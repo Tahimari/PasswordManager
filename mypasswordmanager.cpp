@@ -5,6 +5,7 @@
 #include <QMenuBar>
 #include <QToolBar>
 #include <QMessageBox>
+#include <QDebug>
 
 MyPasswordManager::MyPasswordManager()
 {
@@ -107,15 +108,18 @@ void MyPasswordManager::removeAll()
 void MyPasswordManager::openFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this);
+    QString password = passwordWidget->showPasswordDialog();
+
     if (!fileName.isEmpty())
-        passwordWidget->readFromFile(fileName);
+        passwordWidget->readFromFile(fileName, password);
 }
 
 void MyPasswordManager::saveFile()
 {
     QString fileName = QFileDialog::getSaveFileName(this);
+    QString password = passwordWidget->showPasswordDialog();
     if (!fileName.isEmpty())
-        passwordWidget->writeToFile(fileName);
+        passwordWidget->writeToFile(fileName, password);
 }
 
 void MyPasswordManager::updateActions(const QItemSelection &selection)
