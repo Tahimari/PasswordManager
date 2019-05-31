@@ -4,8 +4,7 @@
 #include <QAbstractTableModel>
 #include <QList>
 #include <QCryptographicHash>
-
-
+#include "simplecrypt.h"
 struct Pass
 {
     QString name;
@@ -21,7 +20,11 @@ struct Pass
 
 inline QDataStream &operator<<(QDataStream &stream, const Pass &contact)
 {
-    return stream << contact.name << contact.login << contact.password;
+    SimpleCrypt crypto(Q_UINT64_C(0x0c2ad4a4acb9f023));
+    return stream
+            << crypto.encryptToString(contact.name)
+            << crypto.encryptToString(contact.login)
+            << crypto.encryptToString(contact.password);
 }
 
 inline QDataStream &operator>>(QDataStream &stream, Pass &contact)

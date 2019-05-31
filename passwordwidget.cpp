@@ -222,8 +222,13 @@ void PasswordWidget::readFromFile(const QString &fileName, const QString passwor
         QMessageBox::information(this, tr("Brak danych w pliku"),
                                  tr("Plik który próbujes otworzyć nie zawiera zapisanych haseł."));
     } else {
+         SimpleCrypt crypto(Q_UINT64_C(0x0c2ad4a4acb9f023));
         for (const auto &pass: qAsConst(passes))
-            addEntry(pass.name, pass.login, pass.password);
+            addEntry(
+                        crypto.decryptToString(pass.name),
+                        crypto.decryptToString(pass.login),
+                        crypto.decryptToString(pass.password)
+                        );
     }
 }
 
