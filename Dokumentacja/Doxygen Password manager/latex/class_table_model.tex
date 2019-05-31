@@ -1,0 +1,53 @@
+\hypertarget{class_table_model}{}\section{Table\+Model Class Reference}
+\label{class_table_model}\index{TableModel@{TableModel}}
+Inheritance diagram for Table\+Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_table_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_table_model_a76647c50ae162a4f91daf4a9f76f6fb6}\label{class_table_model_a76647c50ae162a4f91daf4a9f76f6fb6}} 
+{\bfseries Table\+Model} (Q\+Object $\ast$parent=nullptr)
+\item 
+\mbox{\Hypertarget{class_table_model_a7e4c501d8f8b7b5473fda21fcd21df18}\label{class_table_model_a7e4c501d8f8b7b5473fda21fcd21df18}} 
+{\bfseries Table\+Model} (Q\+List$<$ \mbox{\hyperlink{struct_pass}{Pass}} $>$ passes, Q\+Object $\ast$parent=nullptr)
+\item 
+\mbox{\Hypertarget{class_table_model_a93b1a8bd720d4633ff3e16b4b0779c70}\label{class_table_model_a93b1a8bd720d4633ff3e16b4b0779c70}} 
+int {\bfseries row\+Count} (const Q\+Model\+Index \&parent) const override
+\item 
+\mbox{\Hypertarget{class_table_model_a159d3e9c8b93b60d61c2d600e5645ede}\label{class_table_model_a159d3e9c8b93b60d61c2d600e5645ede}} 
+int {\bfseries column\+Count} (const Q\+Model\+Index \&parent) const override
+\item 
+\mbox{\Hypertarget{class_table_model_ae7ff98675b7d5f7405e5e2ed7fe81fc9}\label{class_table_model_ae7ff98675b7d5f7405e5e2ed7fe81fc9}} 
+Q\+Variant {\bfseries data} (const Q\+Model\+Index \&index, int role) const override
+\item 
+\mbox{\Hypertarget{class_table_model_acc300ae9cc6468e1be70794319146b12}\label{class_table_model_acc300ae9cc6468e1be70794319146b12}} 
+Q\+Variant {\bfseries header\+Data} (int section, Qt\+::\+Orientation orientation, int role) const override
+\item 
+\mbox{\Hypertarget{class_table_model_a4273c8d963730baa0a155ae387628e88}\label{class_table_model_a4273c8d963730baa0a155ae387628e88}} 
+Qt\+::\+Item\+Flags {\bfseries flags} (const Q\+Model\+Index \&index) const override
+\item 
+\mbox{\Hypertarget{class_table_model_a31f2ce205d0b33242e3ac3356bd75c81}\label{class_table_model_a31f2ce205d0b33242e3ac3356bd75c81}} 
+bool {\bfseries set\+Data} (const Q\+Model\+Index \&index, const Q\+Variant \&value, int role=Qt\+::\+Edit\+Role) override
+\item 
+\mbox{\Hypertarget{class_table_model_ab105c44d2a2937b12ea5a0f2914da210}\label{class_table_model_ab105c44d2a2937b12ea5a0f2914da210}} 
+bool {\bfseries insert\+Rows} (int position, int rows, const Q\+Model\+Index \&index=Q\+Model\+Index()) override
+\item 
+\mbox{\Hypertarget{class_table_model_a31b8936b340d2873eb20730d2925c6a0}\label{class_table_model_a31b8936b340d2873eb20730d2925c6a0}} 
+bool {\bfseries remove\+Rows} (int position, int rows, const Q\+Model\+Index \&index=Q\+Model\+Index()) override
+\item 
+\mbox{\Hypertarget{class_table_model_a46dd43c289737b9beed5f40816f72d21}\label{class_table_model_a46dd43c289737b9beed5f40816f72d21}} 
+bool {\bfseries hide\+Password} (const Q\+Model\+Index \&index, int role)
+\item 
+\mbox{\Hypertarget{class_table_model_a8ed9e99bad07e7915badbc3889a9bad6}\label{class_table_model_a8ed9e99bad07e7915badbc3889a9bad6}} 
+Q\+List$<$ \mbox{\hyperlink{struct_pass}{Pass}} $>$ {\bfseries get\+Passes} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/kamilmisiak/\+Documents/\+P\+R\+O\+G\+R\+A\+M\+I\+S\+T\+A/\+Qt/my\+Password\+Manager/tablemodel.\+h\item 
+/\+Users/kamilmisiak/\+Documents/\+P\+R\+O\+G\+R\+A\+M\+I\+S\+T\+A/\+Qt/my\+Password\+Manager/tablemodel.\+cpp\end{DoxyCompactItemize}
